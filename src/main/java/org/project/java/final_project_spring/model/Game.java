@@ -122,4 +122,10 @@ public class Game {
         this.consoles = consoles;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Title: %s, Year: %s, Price: %s, Consoles: %s, Developer: %s, Genre: %s", this.title,
+                this.year, this.price, this.consoles, this.dev, this.genre);
+    }
+
 }
