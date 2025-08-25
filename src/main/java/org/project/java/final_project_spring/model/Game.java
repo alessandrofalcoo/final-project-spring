@@ -29,13 +29,16 @@ public class Game {
     private String title;
 
     @NotBlank(message = "The year cannot be null, empty or blank")
-    @Column(name = "year-of-publication")
+    @Column(name = "year_of_publication")
     private LocalDate year;
 
     @NotNull(message = "The price must not be null")
     @Positive(message = "The price must be greater than zero")
     @Column(name = "price")
     private Float price;
+
+    @Column(name = "image")
+    private String url;
 
     @ManyToOne
     @JoinColumn(name = "dev_id", nullable = false)
