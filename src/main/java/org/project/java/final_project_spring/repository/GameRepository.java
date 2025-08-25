@@ -6,5 +6,5 @@ import org.project.java.final_project_spring.model.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GameRepository extends JpaRepository<Game, Integer> {
-    public List<Game> findByNameContaining(String name);
+    public List<Game> findByTitleContaining(String title);
 }
