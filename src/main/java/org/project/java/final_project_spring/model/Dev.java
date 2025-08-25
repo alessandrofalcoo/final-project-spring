@@ -4,32 +4,36 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "consoles")
-public class Console {
+@Table(name = "developers")
+public class Dev {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "The name cannot be null, empty or blank")
+    @NotBlank
+    @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "consoles")
+    @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "game_id", nullable = false)
     private List<Game> games;
 
-    public Console() {
+    public Dev() {
     }
 
-    public Console(Integer id, String name, List<Game> games) {
+    public Dev(Integer id, String name, List<Game> games) {
         this.id = id;
         this.name = name;
         this.games = games;

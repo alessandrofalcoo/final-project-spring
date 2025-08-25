@@ -8,31 +8,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "consoles")
-public class Console {
+@Table(name = "genres")
+public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "The name cannot be null, empty or blank")
+    @NotBlank(message = "The genre name must not be null, empty or blank")
     private String name;
 
-    @ManyToMany(mappedBy = "consoles")
+    @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "game_id", nullable = false)
     private List<Game> games;
 
-    public Console() {
-    }
-
-    public Console(Integer id, String name, List<Game> games) {
+    public Genre(Integer id, String name, List<Game> games) {
         this.id = id;
         this.name = name;
         this.games = games;
+    }
+
+    public Genre() {
     }
 
     public Integer getId() {
