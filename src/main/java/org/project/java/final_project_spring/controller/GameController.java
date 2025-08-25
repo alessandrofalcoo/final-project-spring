@@ -23,6 +23,6 @@ public class GameController {
         List<Game> games = gameRepository.findAll();
         model.addAttribute("games", games);
 
-        return "/index";
+        return "games/index";
     }
 }
