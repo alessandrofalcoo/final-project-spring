@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -38,10 +39,12 @@ public class Game {
     private Float price;
 
     @OneToMany(mappedBy = "games")
-    private List<Dev> dev;
+    @JoinColumn(name = "dev_id", nullable = false)
+    private Dev dev;
 
-    @OneToMany(mappedBy = "games")
-    private List<Genre> genre;
+    @ManyToOne
+    @JoinColumn(name = "genre_id", nullable = false)
+    private Genre genre;
 
     @ManyToMany
     @JoinTable(name = "game_console", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "console_id"))
@@ -50,7 +53,7 @@ public class Game {
     public Game() {
     }
 
-    public Game(Integer id, String title, LocalDate year, Float price, List<Dev> dev, List<Genre> genre,
+    public Game(Integer id, String title, LocalDate year, Float price, Dev dev, Genre genre,
             List<Console> consoles) {
         this.id = id;
         this.title = title;
@@ -93,19 +96,19 @@ public class Game {
         this.price = price;
     }
 
-    public List<Dev> getDev() {
+    public Dev getDev() {
         return this.dev;
     }
 
-    public void setDev(List<Dev> dev) {
+    public void setDev(Dev dev) {
         this.dev = dev;
     }
 
-    public List<Genre> getGenre() {
+    public Genre getGenre() {
         return this.genre;
     }
 
-    public void setGenre(List<Genre> genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Console {
     private Integer id;
 
     @NotBlank(message = "The name cannot be null, empty or blank")
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "consoles")
