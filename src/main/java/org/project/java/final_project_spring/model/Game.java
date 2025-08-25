@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +37,7 @@ public class Game {
     @Column(name = "price")
     private Float price;
 
-    @OneToMany(mappedBy = "games")
+    @ManyToOne
     @JoinColumn(name = "dev_id", nullable = false)
     private Dev dev;
 
