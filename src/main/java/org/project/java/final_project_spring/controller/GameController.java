@@ -2,10 +2,13 @@ package org.project.java.final_project_spring.controller;
 
 import java.util.List;
 
-import org.project.java.final_project_spring.model.Console;
+import org.project.java.final_project_spring.model.Dev;
 import org.project.java.final_project_spring.model.Game;
+import org.project.java.final_project_spring.model.Genre;
 import org.project.java.final_project_spring.repository.ConsoleRepository;
+import org.project.java.final_project_spring.repository.DevRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
+import org.project.java.final_project_spring.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +31,12 @@ public class GameController {
 
     @Autowired
     private ConsoleRepository consoleRepository;
+
+    @Autowired
+    private DevRepository devRepository;
+
+    @Autowired
+    private GenreRepository genreRepository;
 
     @GetMapping
     public String index(Model model) {
@@ -54,8 +63,10 @@ public class GameController {
 
     // Mapping per reinderizzare alla view "create"
     @GetMapping("/create")
-    public String create(Model model) {
+    public String add(Model model) {
         model.addAttribute("game", new Game());
+        model.addAttribute("genres", genreRepository.findAll());
+        model.addAttribute("devs", devRepository.findAll());
         model.addAttribute("consoles", consoleRepository.findAll());
         return "games/create";
     }
@@ -63,15 +74,18 @@ public class GameController {
     // Mapping per validare le informazioni all'interno del form di creazione del
     // nuovo gioco
     @PostMapping("/create")
-    public String store(Model model, @Valid @ModelAttribute("game") Game formGame, BindingResult bindingResult) {
-        List<Console> selectedConsoles = consoleRepository
-                .findAllById(formGame.getConsoles().stream().map(Console::getId).toList());
-        formGame.setConsoles(selectedConsoles);
+    public String store(Model model, @Valid @ModelAttribute("game") Game formGame, BindingResult bindingResult,
+            @RequestParam Integer dev, @RequestParam Integer genre) {
         if (bindingResult.hasErrors()) {
             return "games/create";
         }
+        Dev devObj = devRepository.findById(dev).get();
+        Genre genreObj = genreRepository.findById(genre).get();
+
+        formGame.setDev(devObj);
+        formGame.setGenre(genreObj);
 
         gameRepository.save(formGame);
-        return "redirect:/games/index";
+        return "redirect:/games";
     }
 }

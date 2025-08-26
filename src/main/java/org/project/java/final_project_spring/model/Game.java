@@ -29,7 +29,7 @@ public class Game {
     @Column(name = "title")
     private String title;
 
-    @NotBlank(message = "The year cannot be null, empty or blank")
+    @NotNull(message = "The year cannot be null")
     @Column(name = "year_of_publication")
     private LocalDate year;
 
