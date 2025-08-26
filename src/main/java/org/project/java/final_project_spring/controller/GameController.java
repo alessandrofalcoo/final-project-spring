@@ -2,6 +2,7 @@ package org.project.java.final_project_spring.controller;
 
 import java.util.List;
 
+import org.project.java.final_project_spring.model.Console;
 import org.project.java.final_project_spring.model.Game;
 import org.project.java.final_project_spring.repository.ConsoleRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
@@ -63,6 +64,9 @@ public class GameController {
     // nuovo gioco
     @PostMapping("/create")
     public String store(Model model, @Valid @ModelAttribute("game") Game formGame, BindingResult bindingResult) {
+        List<Console> selectedConsoles = consoleRepository
+                .findAllById(formGame.getConsoles().stream().map(Console::getId).toList());
+        formGame.setConsoles(selectedConsoles);
         if (bindingResult.hasErrors()) {
             return "games/create";
         }

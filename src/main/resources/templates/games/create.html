@@ -54,8 +54,8 @@
             </div>
             <div class="mb-3">
                 <label for="consoles" class="form-label"></label>
-                <div th:each="game : ${game}">
-                    <input type="checkbox" name="consoles" th:value="*{consoles}"> <span th:text="*{consoles}"></span>
+                <div th:each="console : ${consoles}">
+                    <input type="checkbox" name="consoles" th:value="${console.title}">
                 </div>
 
             </div>
