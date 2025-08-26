@@ -2,6 +2,7 @@ package org.project.java.final_project_spring.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,12 +56,13 @@ public class Game {
     public Game() {
     }
 
-    public Game(Integer id, String title, LocalDate year, Float price, Dev dev, Genre genre,
+    public Game(Integer id, String title, LocalDate year, Float price, String url, Dev dev, Genre genre,
             List<Console> consoles) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.price = price;
+        this.url = url;
         this.dev = dev;
         this.genre = genre;
         this.consoles = consoles;
@@ -98,6 +100,14 @@ public class Game {
         this.price = price;
     }
 
+    public String getUrl() {
+        return this.url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Dev getDev() {
         return this.dev;
     }
@@ -126,6 +136,10 @@ public class Game {
     public String toString() {
         return String.format("Title: %s, Year: %s, Price: %s, Consoles: %s, Developer: %s, Genre: %s", this.title,
                 this.year, this.price, this.consoles, this.dev, this.genre);
+    }
+
+    public String getConsolesAsString() {
+        return consoles.stream().map(Console::getName).collect(Collectors.joining(", "));
     }
 
 }

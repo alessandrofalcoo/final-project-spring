@@ -61,4 +61,8 @@ public class Console {
         this.games = games;
     }
 
+    @Override
+    public String toString() {
+        return String.format(" %s", this.name);
+    }
 }

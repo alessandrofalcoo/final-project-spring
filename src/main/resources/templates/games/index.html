@@ -11,9 +11,37 @@
 
 <body>
     <header th:replace="fragments/nav :: nav"></header>
-    <h1>
-        My Index
-    </h1>
+    <main class="container-fluid">
+        <div class="table-responsive">
+            <table class="table table-primary">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Year of publication</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Developer</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Consoles</th>
+                        <th scope="col">Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="game: ${games}" th:object="${game}">
+                        <td>[[*{id}]]</td>
+                        <td>[[*{title}]]</td>
+                        <td>[[*{year}]]</td>
+                        <td>[[*{price}]]€</td>
+                        <td>[[*{dev}]]</td>
+                        <td>[[*{genre}]]</td>
+                        <td>[[*{consolesAsString}]]</td>
+                        <td><img th:src="@{${url}}" alt=""></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
 </body>
 
 </html>
