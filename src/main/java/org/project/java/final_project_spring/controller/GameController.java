@@ -1,19 +1,22 @@
 package org.project.java.final_project_spring.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.project.java.final_project_spring.model.Game;
+import org.project.java.final_project_spring.repository.ConsoleRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/games")
@@ -21,6 +24,9 @@ public class GameController {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private ConsoleRepository consoleRepository;
 
     @GetMapping
     public String index(Model model) {
@@ -32,11 +38,8 @@ public class GameController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable Integer id, Model model) {
-        Optional<Game> game = gameRepository.findById(id);
-        if (game.isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404), "This game doesn't exist");
-        }
+    public String show(@PathVariable("id") Integer id, Model model) {
+        Game game = gameRepository.findById(id).get();
         model.addAttribute("game", game);
         return "games/show";
     }
@@ -46,5 +49,25 @@ public class GameController {
         List<Game> games = gameRepository.findByTitleContaining(title);
         model.addAttribute("games", games);
         return "games/index";
+    }
+
+    // Mapping per reinderizzare alla view "create"
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("game", new Game());
+        model.addAttribute("consoles", consoleRepository.findAll());
+        return "games/create";
+    }
+
+    // Mapping per validare le informazioni all'interno del form di creazione del
+    // nuovo gioco
+    @PostMapping("/create")
+    public String store(Model model, @Valid @ModelAttribute("game") Game formGame, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "games/create";
+        }
+
+        gameRepository.save(formGame);
+        return "redirect:/games/index";
     }
 }

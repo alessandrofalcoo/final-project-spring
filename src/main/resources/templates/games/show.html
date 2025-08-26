@@ -10,12 +10,19 @@
 </head>
 
 <body>
-    <header th:replace="fragments/nav :: nav"></header>
-    <main class="container-fluid">
-        <h1>
-            My Show
-        </h1>
+    <header>
+        <th:block th:replace="fragments/nav :: nav"></th:block>
+    </header>
 
+    <main class="container-fluid" th:object="${game}">
+        <div class="m-3 text-center">
+            <h1>[[*{title}]]</h1>
+            <h2>[[*{dev}]]</h2>
+            <h3>[[*{year}]]</h3>
+            <h4>[[*{price}]]</h4>
+            <h5>[[*{consolesAsString}]]</h5>
+            <h6><img th:src="*{url}" alt=""></h6>
+        </div>
     </main>
 </body>
 

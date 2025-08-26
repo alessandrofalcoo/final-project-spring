@@ -12,8 +12,10 @@
 <body>
     <header th:replace="fragments/nav :: nav"></header>
     <main class="container-fluid">
+        <a name="" id="" class="btn btn-outline-primary btn-sm my-3" th:href="@{/games/create}">Add a new game</a>
+
         <div class="table-responsive">
-            <table class="table table-primary">
+            <table class="table table-warning">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -29,7 +31,7 @@
                 <tbody>
                     <tr th:each="game: ${games}" th:object="${game}">
                         <td>[[*{id}]]</td>
-                        <td>[[*{title}]]</td>
+                        <td><a th:href="@{'/games/' + *{id}}">[[*{title}]]</a></td>
                         <td>[[*{year}]]</td>
                         <td>[[*{price}]]€</td>
                         <td>[[*{dev}]]</td>

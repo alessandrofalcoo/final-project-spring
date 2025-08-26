@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add</title>
+    <th:block th:replace="fragments/styles :: bootStyle"></th:block>
+
+</head>
+
+<body>
+    <header>
+        <header th:replace="fragments/nav :: nav"></header>
+
+        <h1 class="text-center">Adding a new Game</h1>
+    </header>
+    <main class="container-fluid">
+        <form th:action="@{/games/create}" th:object="${game}" method="post">
+            <div class="mb-3" th:if="${#fields.hasErrors()}">
+                <ul class="alert alert-danger ps-5">
+                    <li th:each="error : ${#fields.allErrors()}" th:text="${error}"></li>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label"></label>
+                <input type="text" class="form-control" name="title" id="title" th:field="*{title}"
+                    aria-describedby="helpId" placeholder="Insert the title" />
+            </div>
+            <div class="mb-3">
+                <label for="year" class="form-label"></label>
+                <input type="date" class="form-control" name="year" id="year" th:field="*{year}"
+                    aria-describedby="helpId" placeholder="Insert the year" />
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label"></label>
+                <input type="number" class="form-control" name="price" id="price" th:field="*{price}"
+                    aria-describedby="helpId" placeholder="Insert the price" />
+            </div>
+            <div class="mb-3">
+                <label for="url" class="form-label"></label>
+                <input type="url" class="form-control" name="url" id="url" th:field="*{url}" aria-describedby="helpId"
+                    placeholder="Insert the url" />
+            </div>
+            <div class="mb-3">
+                <label for="dev" class="form-label"></label>
+                <input type="text" class="form-control" name="dev" id="dev" th:field="*{dev}" aria-describedby="helpId"
+                    placeholder="Insert the developer" />
+            </div>
+            <div class="mb-3">
+                <label for="genre" class="form-label"></label>
+                <input type="text" class="form-control" name="genre" id="genre" th:field="*{genre}"
+                    aria-describedby="helpId" placeholder="Insert the genre" />
+            </div>
+            <div class="mb-3">
+                <label for="consoles" class="form-label"></label>
+                <div th:each="game : ${game}">
+                    <input type="checkbox" name="consoles" th:value="*{consoles}"> <span th:text="*{consoles}"></span>
+                </div>
+
+            </div>
+        </form>
+    </main>
+
+</body>
+
+</html>
