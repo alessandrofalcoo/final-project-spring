@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
@@ -38,5 +39,12 @@ public class GameController {
         }
         model.addAttribute("game", game);
         return "games/show";
+    }
+
+    @GetMapping("/searchByName")
+    public String searchByName(@RequestParam(name = "title") String title, Model model) {
+        List<Game> games = gameRepository.findByTitleContaining(title);
+        model.addAttribute("games", games);
+        return "games/index";
     }
 }
