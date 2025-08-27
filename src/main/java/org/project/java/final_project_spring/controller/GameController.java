@@ -38,10 +38,21 @@ public class GameController {
     @Autowired
     private GenreRepository genreRepository;
 
-    @GetMapping
+    @GetMapping()
     public String index(Model model) {
 
         List<Game> games = gameRepository.findAll();
+        model.addAttribute("games", games);
+
+        return "games/index";
+    }
+
+    @GetMapping("/dev/{id}")
+    public String showDev(@PathVariable("id") Integer id, Model model) {
+        Dev dev = devRepository.findById(id).get();
+        List<Game> games = gameRepository.findAll();
+
+        model.addAttribute("dev", dev);
         model.addAttribute("games", games);
 
         return "games/index";

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show</title>
+    <th:block th:replace="fragments/styles :: bootStyle"></th:block>
+
+</head>
+
+<body>
+    <header>
+        <th:block th:replace="fragments/nav :: nav"></th:block>
+    </header>
+    <main class="">
+        <div class="container text-center">
+            <h1 th:text="'Developer: ' + ${dev.name}"></h1>
+
+            <h2>Lista giochi</h2>
+            <ul>
+                <li class="game-dev list-style-none" th:each="game : ${games}" th:text="${game.title}"></li>
+            </ul>
+
+            <a class="btn btn-primary btn-sm" th:href="@{/games}">Torna ai giochi</a>
+        </div>
+
+    </main>
+</body>
+
+</html>
+
+</html>

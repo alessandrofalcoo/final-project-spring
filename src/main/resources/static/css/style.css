@@ -61,3 +61,7 @@ a {
     color: #f0f0f0;
     padding: 0.25rem 0.5rem;
 }
+
+.game-dev {
+    list-style: none;
+}
