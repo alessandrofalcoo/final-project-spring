@@ -77,6 +77,8 @@ public class GameController {
     public String store(Model model, @Valid @ModelAttribute("game") Game formGame, BindingResult bindingResult,
             @RequestParam Integer dev, @RequestParam Integer genre) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("devs", devRepository.findAll());
+            model.addAttribute("genres", genreRepository.findAll());
             return "games/create";
         }
         Dev devObj = devRepository.findById(dev).get();
@@ -86,6 +88,38 @@ public class GameController {
         formGame.setGenre(genreObj);
 
         gameRepository.save(formGame);
+        return "redirect:/games";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        model.addAttribute("game", gameRepository.getReferenceById(id));
+        model.addAttribute("devs", devRepository.findAll());
+        model.addAttribute("genres", genreRepository.findAll());
+        model.addAttribute("consoles", consoleRepository.findAll());
+
+        return "games/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@Valid @ModelAttribute("game") Game formGame, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("devs", devRepository.findAll());
+            model.addAttribute("genres", genreRepository.findAll());
+            model.addAttribute("consoles", consoleRepository.findAll());
+
+            return "games/edit";
+        }
+
+        gameRepository.save(formGame);
+        return "redirect:/games";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) {
+        Game game = gameRepository.getReferenceById(id);
+        gameRepository.delete(game);
+
         return "redirect:/games";
     }
 }
