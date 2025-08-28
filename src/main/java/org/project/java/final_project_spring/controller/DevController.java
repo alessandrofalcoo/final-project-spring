@@ -6,7 +6,6 @@ import org.project.java.final_project_spring.model.Dev;
 import org.project.java.final_project_spring.model.Game;
 import org.project.java.final_project_spring.repository.DevRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
-import org.project.java.final_project_spring.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,17 +28,13 @@ public class DevController {
     @Autowired
     private GameRepository gameRepository;
 
-    @Autowired
-    private GenreRepository genreRepository;
-
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
         Dev dev = devRepository.findById(id).orElseThrow(() -> new RuntimeException("Dev not found"));
         List<Game> games = gameRepository.findByDev(dev);
         model.addAttribute("games", games);
         model.addAttribute("dev", dev);
-        model.addAttribute("genre", genreRepository.findById(id).get());
-        return "/devs/show";
+        return "devs/show";
     }
 
     @GetMapping("/create")
@@ -53,24 +48,6 @@ public class DevController {
     public String store(@Valid @ModelAttribute("dev") Dev formDev, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "devs/create";
-        }
-
-        devRepository.save(formDev);
-        return "redirect:/games";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("dev", devRepository.findById(id).get());
-        model.addAttribute("game", gameRepository.findById(id).get());
-        model.addAttribute("edit", true);
-        return "devs/edit";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String update(@Valid @ModelAttribute("dev") Dev formDev, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "devs/edit";
         }
 
         devRepository.save(formDev);

@@ -39,7 +39,7 @@
                             <td>[[*{year}]]</td>
                             <td>[[*{getPriceWithCurrency}]]</td>
                             <td><a th:href="@{/devs/{id}(id=${game.dev.id})}">[[*{dev}]]</a></td>
-                            <td>[[*{genre}]]</td>
+                            <td><a th:href="@{/genres/{id}(id=${game.genre.id})}">[[*{genre}]]</a></td>
                             <td>[[*{consolesAsString}]]</td>
                             <td><img th:src="*{url}" alt=""></td>
                             <td><a th:href="@{/games/{id}(id=${game.id})}" class="btn btn-sm my-3 btn-dark">Show</a>
@@ -55,8 +55,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <a th:href="@{/devs/edit/{id}(id=${dev.id})}" class="btn btn-dark">Edit the dev</a>
-                <a th:href="@{/genres/edit/{id}(id=${genre.id})}" class="btn btn-dark">Edit the genre</a>
                 <a class="btn btn-primary btn-sm" th:href="@{/games}">Back to the games</a>
             </div>
 

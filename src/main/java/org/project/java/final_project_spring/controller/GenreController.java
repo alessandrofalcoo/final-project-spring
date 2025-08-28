@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.project.java.final_project_spring.model.Game;
 import org.project.java.final_project_spring.model.Genre;
-import org.project.java.final_project_spring.repository.DevRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
 import org.project.java.final_project_spring.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +28,12 @@ public class GenreController {
     @Autowired
     private GenreRepository genreRepository;
 
-    @Autowired
-    private DevRepository devRepository;
-
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
         Genre genre = genreRepository.findById(id).orElseThrow(() -> new RuntimeException("Genre not found"));
         List<Game> games = gameRepository.findByGenre(genre);
         model.addAttribute("games", games);
         model.addAttribute("genre", genre);
-        model.addAttribute("dev", devRepository.findById(id).get());
         return "genres/show";
     }
 
@@ -56,7 +51,15 @@ public class GenreController {
         }
         genreRepository.save(formGenre);
 
-        return "/games/index";
+        return "redirect:/games";
 
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) {
+        Genre genre = genreRepository.findById(id).orElseThrow();
+
+        genreRepository.delete(genre);
+        return "redirect:/games";
     }
 }
