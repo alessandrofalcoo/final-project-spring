@@ -1,8 +1,12 @@
 package org.project.java.final_project_spring.model;
 
+import java.beans.Transient;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +40,7 @@ public class Game {
     @NotNull(message = "The price must not be null")
     @Positive(message = "The price must be greater than zero")
     @Column(name = "price")
-    private Float price;
+    private BigDecimal price;
 
     @Column(name = "image")
     private String url;
@@ -56,7 +60,7 @@ public class Game {
     public Game() {
     }
 
-    public Game(Integer id, String title, LocalDate year, Float price, String url, Dev dev, Genre genre,
+    public Game(Integer id, String title, LocalDate year, BigDecimal price, String url, Dev dev, Genre genre,
             List<Console> consoles) {
         this.id = id;
         this.title = title;
@@ -92,12 +96,18 @@ public class Game {
         this.year = year;
     }
 
-    public Float getPrice() {
+    public BigDecimal getPrice() {
         return this.price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @JsonProperty("price")
+    @Transient
+    public String getPriceWithCurrency() {
+        return price != null ? price + "€" : null;
     }
 
     public String getUrl() {

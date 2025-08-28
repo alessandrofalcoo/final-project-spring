@@ -45,13 +45,13 @@ public class DevController {
     }
 
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("dev") BindingResult bindingResult, Model model, Dev formDev) {
+    public String store(@Valid @ModelAttribute("dev") Dev formDev, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "devs/create";
         }
 
         devRepository.save(formDev);
-        return "redirect:/games" + formDev.getGames();
+        return "redirect:/games";
     }
 
     @GetMapping("/edit/{id}")
@@ -63,7 +63,7 @@ public class DevController {
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@Valid @ModelAttribute("dev") BindingResult bindingResult, Model model, Dev formDev) {
+    public String update(@Valid @ModelAttribute("dev") Dev formDev, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "devs/edit";
         }

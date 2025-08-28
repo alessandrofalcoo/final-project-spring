@@ -20,7 +20,7 @@ public class Dev {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "The name must not be null, empty or blank")
     @Column(name = "name")
     private String name;
 
