@@ -1,12 +1,13 @@
 package org.project.java.final_project_spring.controller;
 
-import java.util.List;
-
 import org.project.java.final_project_spring.model.Dev;
 import org.project.java.final_project_spring.model.Game;
 import org.project.java.final_project_spring.repository.DevRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -29,10 +31,14 @@ public class DevController {
     private GameRepository gameRepository;
 
     @GetMapping("/{id}")
-    public String show(@PathVariable Integer id, Model model) {
+    public String show(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size, Model model) {
         Dev dev = devRepository.findById(id).orElseThrow(() -> new RuntimeException("Dev not found"));
-        List<Game> games = gameRepository.findByDev(dev);
-        model.addAttribute("games", games);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Game> gamesPage = gameRepository.findByDev(dev, pageable);
+        model.addAttribute("games", gamesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", gamesPage.getTotalPages());
         model.addAttribute("dev", dev);
         return "devs/show";
     }

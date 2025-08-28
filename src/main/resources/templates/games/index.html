@@ -15,6 +15,15 @@
         <a class="btn btn-dark btn-sm my-3" th:href="@{/games/create}">Add a new game</a>
         <a class="btn btn-dark btn-sm my-3" th:href="@{/devs/create}">Add a new dev</a>
         <a class="btn btn-dark btn-sm my-3" th:href="@{/genres/create}">Add a new genre</a>
+        <div class="pagination d-flex justify-content-center">
+            <a class="btn btn-sm btn-dark mx-4"
+                th:href=" @{|/games?page=${currentPage==0 ? totalPages - 1 : currentPage - 1}&size=10|}">Prev</a>
+
+            <span class="fw-bold">Page [[${currentPage + 1}]] of [[${totalPages}]]</span>
+
+            <a class="btn btn-sm btn-dark mx-4"
+                th:href="@{|/games?page=${currentPage + 1 == totalPages ? 0 : currentPage + 1}&size=10|}">Next</a>
+        </div>
 
         <div class="table-responsive">
             <table class="table">

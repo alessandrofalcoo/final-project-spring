@@ -10,6 +10,9 @@ import org.project.java.final_project_spring.repository.DevRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
 import org.project.java.final_project_spring.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,10 +42,15 @@ public class GameController {
     private GenreRepository genreRepository;
 
     @GetMapping()
-    public String index(Model model) {
+    public String index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
+            Model model) {
 
-        List<Game> games = gameRepository.findAll();
-        model.addAttribute("games", games);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Game> gamesPage = gameRepository.findAll(pageable);
+        int totalPages = gamesPage.getTotalPages();
+        model.addAttribute("games", gamesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
 
         return "games/index";
     }
@@ -66,9 +74,14 @@ public class GameController {
     }
 
     @GetMapping("/searchByName")
-    public String searchByName(@RequestParam(name = "title") String title, Model model) {
-        List<Game> games = gameRepository.findByTitleContaining(title);
-        model.addAttribute("games", games);
+    public String searchByName(@RequestParam(name = "title") String title, @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size, Model model) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Game> gamesPage = gameRepository.findByTitleContaining(title, pageable);
+        model.addAttribute("games", gamesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", gamesPage.getTotalPages());
+        model.addAttribute("searchTitle", title);
         return "games/index";
     }
 
