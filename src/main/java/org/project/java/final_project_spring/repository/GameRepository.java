@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.project.java.final_project_spring.model.Dev;
 import org.project.java.final_project_spring.model.Game;
+import org.project.java.final_project_spring.model.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GameRepository extends JpaRepository<Game, Integer> {
     public List<Game> findByTitleContaining(String title);
 
     List<Game> findByDev(Dev dev);
+
+    List<Game> findByGenre(Genre genre);
 }

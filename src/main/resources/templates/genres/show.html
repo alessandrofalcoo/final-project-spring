@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show</title>
+    <th:block th:replace="fragments/styles :: bootStyle"></th:block>
+
+</head>
+
+<body>
+    <header>
+        <th:block th:replace="fragments/nav :: nav"></th:block>
+    </header>
+    <main>
+        <div class="container text-center">
+            <h1 th:text="'Genre: ' + ${genre.name}"></h1>
+
+            <h2>Lista giochi</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Year of publication</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Developer</th>
+                            <th scope="col">Genre</th>
+                            <th scope="col">Consoles</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="game: ${games}" th:object="${game}">
+                            <td>[[*{id}]]</td>
+                            <td><a th:href="@{'/games/' + *{id}}">[[*{title}]]</a></td>
+                            <td>[[*{year}]]</td>
+                            <td>[[*{getPriceWithCurrency}]]</td>
+                            <td><a th:href="@{/devs/{id}(id=${game.dev.id})}">[[*{dev}]]</a></td>
+                            <td><a th:href="@{/genres/{id}(id=${game.genre.id})}">[[*{genre}]]</a></td>
+                            <td>[[*{consolesAsString}]]</td>
+                            <td><img th:src="*{url}" alt=""></td>
+                            <td><a th:href="@{/games/{id}(id=${game.id})}" class="btn btn-sm my-3 btn-dark">Show</a>
+                            </td>
+                            <td><a class="btn btn-dark btn-sm my-3"
+                                    th:href="@{/games/edit/{id}(id=${game.id})}">Edit</a>
+                            </td>
+                            <form th:action="@{/games/delete/{id}(id=${game.id})}" method="post">
+                                <td>
+                                    <button type="submit" class="btn btn-danger btn-sm my-3">Delete</button>
+                                </td>
+                            </form>
+                        </tr>
+                    </tbody>
+                </table>
+                <a th:href="@{/devs/edit/{id}(id=${dev.id})}" class="btn btn-success">Edit the dev</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/games}">Back to the games</a>
+            </div>
+
+    </main>
+</body>
+
+</html>
+
+</html>
