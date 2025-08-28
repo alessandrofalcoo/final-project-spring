@@ -6,6 +6,7 @@ import org.project.java.final_project_spring.model.Dev;
 import org.project.java.final_project_spring.model.Game;
 import org.project.java.final_project_spring.repository.DevRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
+import org.project.java.final_project_spring.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,12 +29,16 @@ public class DevController {
     @Autowired
     private GameRepository gameRepository;
 
+    @Autowired
+    private GenreRepository genreRepository;
+
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
         Dev dev = devRepository.findById(id).orElseThrow(() -> new RuntimeException("Dev not found"));
         List<Game> games = gameRepository.findByDev(dev);
         model.addAttribute("games", games);
         model.addAttribute("dev", dev);
+        model.addAttribute("genre", genreRepository.findById(id).get());
         return "/devs/show";
     }
 
