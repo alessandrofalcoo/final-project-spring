@@ -34,7 +34,6 @@
                     </thead>
                     <tbody>
                         <tr th:each="game: ${games}" th:object="${game}">
-                            <td>[[*{id}]]</td>
                             <td><a th:href="@{'/games/' + *{id}}">[[*{title}]]</a></td>
                             <td>[[*{year}]]</td>
                             <td>[[*{getPriceWithCurrency}]]</td>

@@ -29,7 +29,6 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">Title</th>
                         <th scope="col">Year of publication</th>
                         <th scope="col">Price</th>
@@ -42,7 +41,6 @@
                 </thead>
                 <tbody>
                     <tr th:each="game: ${games}" th:object="${game}">
-                        <td>[[*{id}]]</td>
                         <td><a th:href="@{'/games/' + *{id}}">[[*{title}]]</a></td>
                         <td>[[*{year}]]</td>
                         <td>[[*{getPriceWithCurrency}]]</td>
