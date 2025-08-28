@@ -13,7 +13,7 @@
     <header>
         <th:block th:replace="fragments/nav :: nav"></th:block>
     </header>
-    <main class="">
+    <main>
         <div class="container text-center">
             <h1 th:text="'Developer: ' + ${dev.name}"></h1>
 
@@ -21,8 +21,8 @@
             <ul>
                 <li class="game-dev list-style-none" th:each="game : ${games}" th:text="${game.title}"></li>
             </ul>
-
-            <a class="btn btn-primary btn-sm" th:href="@{/games}">Torna ai giochi</a>
+            <a th:href="@{/devs/edit/{id}(id=${dev.id})}" class="btn btn-success">Edit the dev</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/games}">Back to the games</a>
         </div>
 
     </main>

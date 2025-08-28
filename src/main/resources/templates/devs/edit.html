@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+    <th:block th:replace="fragments/styles :: bootStyle"></th:block>
+
+</head>
+
+<body>
+    <header>
+        <header th:replace="fragments/nav :: nav"></header>
+
+    </header>
+    <main class="container my-3">
+        <h1 class="text-center">
+            Modify: [[${dev.name}]]
+        </h1>
+        <div class="row">
+            <div class="col-12">
+                <form th:action="@{/devs/edit/{id}(id=${dev.id})}" th:object="${dev}" method="post">
+                    <div class="mb-3" th:if="${#fields.hasErrors()}">
+                        <ul class="alert alert-danger ps-5">
+                            <li th:each="error : ${#fields.allErrors()}" th:text="${error}"></li>
+                        </ul>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label"></label>
+                        <input type="text" class="form-control" name="title" id="title" th:field="*{name}"
+                            aria-describedby="helpId" placeholder="Insert the name" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

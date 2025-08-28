@@ -37,10 +37,17 @@ public class DevController {
         return "/devs/show";
     }
 
+    @GetMapping("/create")
+    public String create(Model model, Dev formDev) {
+        model.addAttribute("dev", new Dev());
+
+        return "devs/create";
+    }
+
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("dev") BindingResult bindingResult, Model model, Dev formDev) {
         if (bindingResult.hasErrors()) {
-            return "devs/create-or-edit";
+            return "devs/create";
         }
 
         devRepository.save(formDev);
@@ -49,16 +56,16 @@ public class DevController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("devs", devRepository.findById(id).get());
-
+        model.addAttribute("dev", devRepository.findById(id).get());
+        model.addAttribute("game", gameRepository.findById(id).get());
         model.addAttribute("edit", true);
-        return "devs/create-or-edit";
+        return "devs/edit";
     }
 
     @PostMapping("/edit/{id}")
     public String update(@Valid @ModelAttribute("dev") BindingResult bindingResult, Model model, Dev formDev) {
         if (bindingResult.hasErrors()) {
-            return "devs/create-or-edit";
+            return "devs/edit";
         }
 
         devRepository.save(formDev);
