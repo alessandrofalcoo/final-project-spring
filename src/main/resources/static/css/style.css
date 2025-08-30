@@ -65,3 +65,26 @@ a {
 .game-dev {
     list-style: none;
 }
+
+.filtersBy {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.filtersBy form {
+    display: flex;
+    flex-direction: column;
+}
+
+.filtersBy select {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.filtersBy button {
+    margin-top: 8px;
+}

@@ -14,4 +14,11 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
     public Page<Game> findByDev(Dev dev, Pageable pageable);
 
     public Page<Game> findByGenre(Genre genre, Pageable pageable);
+
+    public Page<Game> findByGenreId(Integer genreId, Pageable pageable);
+
+    public Page<Game> findByDevId(Integer devId, Pageable pageable);
+
+    public Page<Game> findByGenreIdAndDevId(Integer genreId, Integer devId, Pageable pageable);
+
 }

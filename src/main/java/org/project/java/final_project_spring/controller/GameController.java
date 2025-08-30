@@ -51,6 +51,8 @@ public class GameController {
         model.addAttribute("games", gamesPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("genres", genreRepository.findAll());
+        model.addAttribute("devs", devRepository.findAll());
 
         return "games/index";
     }
@@ -82,6 +84,38 @@ public class GameController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", gamesPage.getTotalPages());
         model.addAttribute("searchTitle", title);
+        return "games/index";
+    }
+
+    @GetMapping("/filter")
+    public String filters(@RequestParam(required = false) Integer genreId,
+            @RequestParam(required = false) Integer devId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size, Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Game> gamesPage;
+
+        if (genreId == null && devId == null) {
+            gamesPage = gameRepository.findAll(pageable);
+        } else if (genreId != null && devId == null) {
+            gamesPage = gameRepository.findByGenreId(genreId, pageable);
+        } else if (genreId == null && devId != null) {
+            gamesPage = gameRepository.findByDevId(devId, pageable);
+        } else {
+            gamesPage = gameRepository.findByGenreIdAndDevId(genreId, devId, pageable);
+        }
+
+        model.addAttribute("games", gamesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", gamesPage.getTotalPages());
+
+        model.addAttribute("genres", genreRepository.findAll());
+        model.addAttribute("devs", devRepository.findAll());
+
+        model.addAttribute("searchGenreId", genreId);
+        model.addAttribute("searchDevId", devId);
+
         return "games/index";
     }
 
