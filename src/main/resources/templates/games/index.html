@@ -17,24 +17,24 @@
             <a class="btn btn-dark btn-sm my-3" th:href="@{/devs/create}">Add a new dev</a>
             <a class="btn btn-dark btn-sm my-3" th:href="@{/genres/create}">Add a new genre</a>
             <div class="filtersBy">
-                <form th:action="@{/games/searchByGenre}" method="get">
+                <form th:action="@{/games/filters}" method="get">
                     <select class="genreSelect" name="genreId">
                         <option value=""> Select a genre </option>
-                        <option th:each="g : ${genres}" th:value="${g.id}" th:text="${g.name}">
+                        <option th:each="g : ${genres}" th:value="${g.id}" th:text="${g.name}"
+                            th:selected="${g.id == searchGenreId}">
 
                         </option>
                     </select>
-                    <button class="btn btn-dark btn-sm my-3" type="submit">Filter by genre</button>
-                </form>
-                <form th:action="@{/games/searchByDev}" method="get">
                     <select class="devSelect" name="devId">
                         <option value=""> Select a developer </option>
-                        <option th:each="d : ${devs}" th:value="${d.id}" th:text="${d.name}">
+                        <option th:each="d : ${devs}" th:value="${d.id}" th:text="${d.name}"
+                            th:selected="${d.id == searchDevId}">
 
                         </option>
                     </select>
-                    <button class="btn btn-dark btn-sm my-3" type="submit">Filter by developer</button>
+                    <button class="btn btn-dark btn-sm my-3" type="submit">Filter</button>
                 </form>
+
             </div>
 
         </div>

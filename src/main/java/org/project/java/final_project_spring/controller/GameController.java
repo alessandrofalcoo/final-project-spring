@@ -87,7 +87,7 @@ public class GameController {
         return "games/index";
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/filters")
     public String filters(@RequestParam(required = false) Integer genreId,
             @RequestParam(required = false) Integer devId,
             @RequestParam(defaultValue = "0") int page,
