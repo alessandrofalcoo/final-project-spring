@@ -66,25 +66,36 @@ a {
     list-style: none;
 }
 
+
 .filtersBy {
     display: flex;
     justify-content: flex-end;
-    gap: 30px;
     align-items: center;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
 
-.filtersBy form {
-    display: flex;
-    flex-direction: column;
+.filtersBy select {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
 }
 
-.filtersBy select {
-    padding: 5px 10px;
-    font-size: 14px;
-}
 
 .filtersBy button {
-    margin-top: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filtersBy button:hover {
+    background-color: #495057;
 }
