@@ -2,8 +2,8 @@ package org.project.java.final_project_spring.controller;
 
 import org.project.java.final_project_spring.model.Dev;
 import org.project.java.final_project_spring.model.Game;
-import org.project.java.final_project_spring.repository.DevRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
+import org.project.java.final_project_spring.service.DevService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 public class DevController {
 
     @Autowired
-    private DevRepository devRepository;
+    private DevService devService;
 
     @Autowired
     private GameRepository gameRepository;
@@ -33,7 +33,7 @@ public class DevController {
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size, Model model) {
-        Dev dev = devRepository.findById(id).orElseThrow(() -> new RuntimeException("Dev not found"));
+        Dev dev = devService.getById(id);
         Pageable pageable = PageRequest.of(page, size);
         Page<Game> gamesPage = gameRepository.findByDev(dev, pageable);
         model.addAttribute("games", gamesPage.getContent());
@@ -56,15 +56,13 @@ public class DevController {
             return "devs/create";
         }
 
-        devRepository.save(formDev);
+        devService.create(formDev);
         return "redirect:/games";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        Dev dev = devRepository.findById(id).orElseThrow();
-
-        devRepository.delete(dev);
+        devService.deleteById(id);
         return "redirect:/games";
     }
 }

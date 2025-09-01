@@ -133,7 +133,7 @@ public class GameController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("game", gameService.findById(id));
+        model.addAttribute("game", gameService.getById(id));
         model.addAttribute("devs", devRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll());
         model.addAttribute("consoles", consoleRepository.findAll());

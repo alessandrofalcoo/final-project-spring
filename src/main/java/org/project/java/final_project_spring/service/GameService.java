@@ -32,9 +32,6 @@ public class GameService {
 
     public Game getById(Integer id) {
         Optional<Game> gameAttempt = gameRepository.findById(id);
-        if (gameAttempt.isEmpty()) {
-
-        }
         return gameAttempt.get();
     }
 
