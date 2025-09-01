@@ -1,6 +1,5 @@
 package org.project.java.final_project_spring.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.project.java.final_project_spring.model.Dev;
@@ -11,6 +10,7 @@ import org.project.java.final_project_spring.repository.GameRepository;
 import org.project.java.final_project_spring.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +26,8 @@ public class GameService {
     @Autowired
     private GenreRepository genreRepository;
 
-    public List<Game> findAll() {
-        return gameRepository.findAll();
+    public Page<Game> findAll(Pageable pageable) {
+        return gameRepository.findAll(pageable);
     }
 
     public Game getById(Integer id) {
@@ -45,6 +45,19 @@ public class GameService {
 
     public Optional<Game> findById(Integer id) {
         return gameRepository.findById(id);
+    }
+
+    public Page<Game> getFilteredGames(Integer genreId, Integer devId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        if (genreId == null && devId == null) {
+            return gameRepository.findAll(pageable);
+        } else if (genreId != null && devId == null) {
+            return gameRepository.findByGenreId(genreId, pageable);
+        } else if (genreId == null && devId != null) {
+            return gameRepository.findByDevId(devId, pageable);
+        } else {
+            return gameRepository.findByGenreIdAndDevId(genreId, devId, pageable);
+        }
     }
 
     public Game create(Game game) {

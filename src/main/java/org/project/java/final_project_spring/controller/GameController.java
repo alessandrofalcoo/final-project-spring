@@ -9,6 +9,7 @@ import org.project.java.final_project_spring.repository.ConsoleRepository;
 import org.project.java.final_project_spring.repository.DevRepository;
 import org.project.java.final_project_spring.repository.GameRepository;
 import org.project.java.final_project_spring.repository.GenreRepository;
+import org.project.java.final_project_spring.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +32,9 @@ public class GameController {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private GameService gameService;
 
     @Autowired
     private ConsoleRepository consoleRepository;
@@ -93,18 +97,7 @@ public class GameController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size, Model model) {
 
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Game> gamesPage;
-
-        if (genreId == null && devId == null) {
-            gamesPage = gameRepository.findAll(pageable);
-        } else if (genreId != null && devId == null) {
-            gamesPage = gameRepository.findByGenreId(genreId, pageable);
-        } else if (genreId == null && devId != null) {
-            gamesPage = gameRepository.findByDevId(devId, pageable);
-        } else {
-            gamesPage = gameRepository.findByGenreIdAndDevId(genreId, devId, pageable);
-        }
+        Page<Game> gamesPage = gameService.getFilteredGames(genreId, devId, page, size);
 
         model.addAttribute("games", gamesPage.getContent());
         model.addAttribute("currentPage", page);
