@@ -3,7 +3,7 @@ package org.project.java.final_project_spring.controller;
 import org.project.java.final_project_spring.model.Game;
 import org.project.java.final_project_spring.model.Genre;
 import org.project.java.final_project_spring.repository.GameRepository;
-import org.project.java.final_project_spring.repository.GenreRepository;
+import org.project.java.final_project_spring.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,12 +28,12 @@ public class GenreController {
     private GameRepository gameRepository;
 
     @Autowired
-    private GenreRepository genreRepository;
+    private GenreService genreService;
 
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size, Model model) {
-        Genre genre = genreRepository.findById(id).orElseThrow(() -> new RuntimeException("Genre not found"));
+        Genre genre = genreService.getById(id);
         Pageable pageable = PageRequest.of(page, size);
         Page<Game> gamesPage = gameRepository.findByGenre(genre, pageable);
 
@@ -56,7 +56,7 @@ public class GenreController {
         if (bindingResult.hasErrors()) {
             return "genres/create";
         }
-        genreRepository.save(formGenre);
+        genreService.create(formGenre);
 
         return "redirect:/games";
 
@@ -64,9 +64,7 @@ public class GenreController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        Genre genre = genreRepository.findById(id).orElseThrow();
-
-        genreRepository.delete(genre);
+        genreService.deleteById(id);
         return "redirect:/games";
     }
 }
