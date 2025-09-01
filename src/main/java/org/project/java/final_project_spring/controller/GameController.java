@@ -1,13 +1,9 @@
 package org.project.java.final_project_spring.controller;
 
-import java.util.List;
-
 import org.project.java.final_project_spring.model.Dev;
 import org.project.java.final_project_spring.model.Game;
-import org.project.java.final_project_spring.model.Genre;
 import org.project.java.final_project_spring.repository.ConsoleRepository;
 import org.project.java.final_project_spring.repository.DevRepository;
-import org.project.java.final_project_spring.repository.GameRepository;
 import org.project.java.final_project_spring.repository.GenreRepository;
 import org.project.java.final_project_spring.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +27,6 @@ import jakarta.validation.Valid;
 public class GameController {
 
     @Autowired
-    private GameRepository gameRepository;
-
-    @Autowired
     private GameService gameService;
 
     @Autowired
@@ -50,7 +43,7 @@ public class GameController {
             Model model) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Game> gamesPage = gameRepository.findAll(pageable);
+        Page<Game> gamesPage = gameService.findAll(pageable);
         int totalPages = gamesPage.getTotalPages();
         model.addAttribute("games", gamesPage.getContent());
         model.addAttribute("currentPage", page);
@@ -62,9 +55,9 @@ public class GameController {
     }
 
     @GetMapping("/dev/{id}")
-    public String showDev(@PathVariable("id") Integer id, Model model) {
+    public String showDev(@PathVariable("id") Integer id, Pageable pageable, Model model) {
         Dev dev = devRepository.findById(id).get();
-        List<Game> games = gameRepository.findAll();
+        Page<Game> games = gameService.findAll(pageable);
 
         model.addAttribute("dev", dev);
         model.addAttribute("games", games);
@@ -74,16 +67,17 @@ public class GameController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
-        Game game = gameRepository.findById(id).get();
+        Game game = gameService.getById(id);
         model.addAttribute("game", game);
         return "games/show";
     }
 
     @GetMapping("/searchByName")
-    public String searchByName(@RequestParam(name = "title") String title, @RequestParam(defaultValue = "0") int page,
+    public String searchByName(@RequestParam(name = "title") String title, Pageable pageable,
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size, Model model) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Game> gamesPage = gameRepository.findByTitleContaining(title, pageable);
+
+        Page<Game> gamesPage = gameService.findByTitle(title, pageable);
         model.addAttribute("games", gamesPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", gamesPage.getTotalPages());
@@ -132,19 +126,14 @@ public class GameController {
             model.addAttribute("genres", genreRepository.findAll());
             return "games/create";
         }
-        Dev devObj = devRepository.findById(dev).get();
-        Genre genreObj = genreRepository.findById(genre).get();
 
-        formGame.setDev(devObj);
-        formGame.setGenre(genreObj);
-
-        gameRepository.save(formGame);
+        gameService.create(formGame);
         return "redirect:/games";
     }
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("game", gameRepository.getReferenceById(id));
+        model.addAttribute("game", gameService.findById(id));
         model.addAttribute("devs", devRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll());
         model.addAttribute("consoles", consoleRepository.findAll());
@@ -162,14 +151,13 @@ public class GameController {
             return "games/edit";
         }
 
-        gameRepository.save(formGame);
+        gameService.update(formGame);
         return "redirect:/games";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        Game game = gameRepository.getReferenceById(id);
-        gameRepository.delete(game);
+        gameService.deleteById(id);
 
         return "redirect:/games";
     }
