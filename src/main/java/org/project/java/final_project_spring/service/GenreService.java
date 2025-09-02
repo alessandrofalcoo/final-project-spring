@@ -13,6 +13,10 @@ public class GenreService {
     @Autowired
     private GenreRepository genreRepository;
 
+    public Optional<Genre> findById(Integer id) {
+        return genreRepository.findById(id);
+    }
+
     public Genre getById(Integer id) {
         Optional<Genre> genreAttempt = genreRepository.findById(id);
         return genreAttempt.get();

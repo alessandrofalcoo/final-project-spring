@@ -12,6 +12,10 @@ public class DevService {
     @Autowired
     private DevRepository devRepository;
 
+    public Optional<Dev> findById(Integer id) {
+        return devRepository.findById(id);
+    }
+
     public Dev getById(Integer id) {
         Optional<Dev> devAttempt = devRepository.findById(id);
         return devAttempt.get();
