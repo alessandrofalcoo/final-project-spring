@@ -1,0 +1,53 @@
+package org.project.java.final_project_spring.security;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.project.java.final_project_spring.controller.Role;
+import org.project.java.final_project_spring.controller.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+public class DatabaseUserDetails implements UserDetails {
+
+    private final Integer id;
+    private final String username;
+    private final String password;
+    private final Set<GrantedAuthority> authorities;
+
+    public DatabaseUserDetails(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.authorities = new HashSet<GrantedAuthority>();
+
+        for (Role userRole : user.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority(userRole.getName()));
+        }
+    }
+
+    public DatabaseUserDetails(Integer id, String username, String password, Set<GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+    }
+
+    public Integer getId() {
+        return this.id;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public Set<GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
+
+}
