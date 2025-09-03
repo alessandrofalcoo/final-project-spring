@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/games/**").hasAuthority("ADMIN")
                 .requestMatchers("/genres", "/genres/create").hasAuthority("ADMIN")
                 .requestMatchers("/devs", "/devs/create").hasAuthority("ADMIN")
-                .requestMatchers("/games", "/games/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/games", "/games/**").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers("/**").permitAll())
 
                 .formLogin(Customizer.withDefaults())

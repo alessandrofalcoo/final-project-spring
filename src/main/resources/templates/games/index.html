@@ -13,9 +13,12 @@
     <header th:replace="fragments/nav :: nav"></header>
     <main class="container-fluid">
         <div class="">
-            <a class="btn btn-dark btn-sm my-3" th:href="@{/games/create}">Add a new game</a>
-            <a class="btn btn-dark btn-sm my-3" th:href="@{/devs/create}">Add a new dev</a>
-            <a class="btn btn-dark btn-sm my-3" th:href="@{/genres/create}">Add a new genre</a>
+            <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-dark btn-sm my-3" th:href="@{/games/create}">Add a
+                new game</a>
+            <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-dark btn-sm my-3" th:href="@{/devs/create}">Add a
+                new dev</a>
+            <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-dark btn-sm my-3" th:href="@{/genres/create}">Add a
+                new genre</a>
             <div class="filtersBy">
                 <form th:action="@{/games/filters}" method="get">
                     <select class="genreSelect" name="genreId">
@@ -59,6 +62,9 @@
                         <th scope="col">Consoles</th>
                         <th scope="col">Image</th>
                         <th scope="col">Actions</th>
+                        <th sec:authorize="hasAuthority('ADMIN')"></th>
+                        <th sec:authorize="hasAuthority('ADMIN')"></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -71,13 +77,14 @@
                         <td>[[*{consolesAsString}]]</td>
                         <td><img th:src="*{url}" alt=""></td>
                         <td><a th:href="@{/games/{id}(id=${game.id})}" class="btn btn-sm my-3 btn-dark">Show</a></td>
-                        <td><a class="btn btn-dark btn-sm my-3" th:href="@{/games/edit/{id}(id=${game.id})}">Edit</a>
+                        <td sec:authorize="hasAuthority('ADMIN')"><a sec:authorize="hasAuthority('ADMIN')"
+                                class="btn btn-dark btn-sm my-3" th:href="@{/games/edit/{id}(id=${game.id})}">Edit</a>
                         </td>
-                        <form th:action="@{/games/delete/{id}(id=${game.id})}" method="post">
-                            <td>
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <form th:action="@{/games/delete/{id}(id=${game.id})}" method="post">
                                 <button type="submit" class="btn btn-danger btn-sm my-3">Delete</button>
-                            </td>
-                        </form>
+                            </form>
+                        </td>
                     </tr>
                 </tbody>
             </table>
