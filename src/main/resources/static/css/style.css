@@ -99,3 +99,11 @@ a {
 .filtersBy button:hover {
     background-color: #495057;
 }
+
+.logged-user {
+    color: white;
+}
+
+.logout-link {
+    max-height: fit-content;
+}

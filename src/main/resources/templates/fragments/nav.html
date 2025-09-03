@@ -8,7 +8,7 @@
 <body>
     <th:block th:fragment="nav">
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-            <a class="navbar-brand m-4" th:href="@{/games}">Lista dei Giochi</a>
+            <a class="navbar-brand m-4" th:href="@{/games}">Games's List</a>
             <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
                 data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
                 aria-label="Toggle navigation"></button>
@@ -22,7 +22,16 @@
                     <input class="form-control me-sm-2" name="title" type="text" placeholder="Find your game..." />
                     <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
                 </form>
-            </div>
+                <div class="user-section d-flex">
+                    <p class="logged-user">Logged user: <span sec:authentication="name"
+                            class="fw-bold logged-user me-2"></span></p>
+                    <div th:if="${#authorization.expression('isAuthenticated()')}">
+                        <p class="logged-user">Roles: <span sec:authentication="principal.authorities"
+                                class="fw-bold me-2"></span></p>
+                    </div>
+
+                    <a class="btn btn-sm btn-light logout-link text-center mx-3" href="/logout">Sign out</a>
+                </div>
         </nav>
 
     </th:block>
