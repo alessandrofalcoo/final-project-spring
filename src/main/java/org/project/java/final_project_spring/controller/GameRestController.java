@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/games")
+@CrossOrigin(origins = "http://localhost:5173")
 public class GameRestController {
 
     @Autowired
@@ -33,6 +35,16 @@ public class GameRestController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Game> games = gameService.findAll(pageable);
         return games;
+    }
+
+    @GetMapping("/filters")
+    public Page<Game> filters(@RequestParam(required = false) Integer genreId,
+            @RequestParam(required = false) Integer devId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size, Pageable pageable) {
+        pageable = PageRequest.of(page, size);
+        Page<Game> gamesPage = gameService.getFilteredGames(genreId, devId, pageable);
+        return gamesPage;
     }
 
     @GetMapping("/{id}")

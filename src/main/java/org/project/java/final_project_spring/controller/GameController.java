@@ -90,8 +90,9 @@ public class GameController {
             @RequestParam(required = false) Integer devId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size, Model model) {
+        Pageable pageable = PageRequest.of(page, size);
 
-        Page<Game> gamesPage = gameService.getFilteredGames(genreId, devId, page, size);
+        Page<Game> gamesPage = gameService.getFilteredGames(genreId, devId, pageable);
 
         model.addAttribute("games", gamesPage.getContent());
         model.addAttribute("currentPage", page);
