@@ -1,5 +1,6 @@
 package org.project.java.final_project_spring.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.project.java.final_project_spring.model.Genre;
@@ -12,6 +13,10 @@ public class GenreService {
 
     @Autowired
     private GenreRepository genreRepository;
+
+    public List<Genre> findAll() {
+        return genreRepository.findAll();
+    }
 
     public Optional<Genre> findById(Integer id) {
         return genreRepository.findById(id);

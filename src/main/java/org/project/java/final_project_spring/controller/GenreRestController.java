@@ -1,5 +1,6 @@
 package org.project.java.final_project_spring.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.project.java.final_project_spring.model.Genre;
@@ -20,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class GenreRestController {
     @Autowired
     private GenreService genreService;
+
+    @GetMapping
+    public List<Genre> index() {
+        return genreService.findAll();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Genre> show(@PathVariable Integer id) {

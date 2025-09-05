@@ -1,5 +1,6 @@
 package org.project.java.final_project_spring.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.project.java.final_project_spring.model.Dev;
@@ -18,8 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/dev")
 public class DevRestController {
+
     @Autowired
     private DevService devService;
+
+    @GetMapping
+    public List<Dev> index() {
+        return devService.findAll();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Dev> show(@PathVariable Integer id) {

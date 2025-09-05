@@ -1,5 +1,6 @@
 package org.project.java.final_project_spring.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.project.java.final_project_spring.model.Dev;
@@ -11,6 +12,10 @@ import org.springframework.stereotype.Service;
 public class DevService {
     @Autowired
     private DevRepository devRepository;
+
+    public List<Dev> findAll() {
+        return devRepository.findAll();
+    }
 
     public Optional<Dev> findById(Integer id) {
         return devRepository.findById(id);
