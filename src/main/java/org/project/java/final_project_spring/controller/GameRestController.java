@@ -44,6 +44,9 @@ public class GameRestController {
             @RequestParam(defaultValue = "10") int size, Pageable pageable) {
         pageable = PageRequest.of(page, size);
         Page<Game> gamesPage = gameService.getFilteredGames(genreId, devId, pageable);
+        if (gamesPage.isEmpty()) {
+            throw new Error("No games found with this filter");
+        }
         return gamesPage;
     }
 
