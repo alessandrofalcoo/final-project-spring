@@ -39,6 +39,18 @@ public class GameRestController {
         return games;
     }
 
+    @GetMapping("/searchByName")
+    public Page<Game> searchByName(@RequestParam(required = false) String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size, Pageable pageable) {
+        pageable = PageRequest.of(page, size);
+        Page<Game> gamesPage = gameService.findByTitle(title, pageable);
+        if (gamesPage.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No games with this name");
+        }
+        return gamesPage;
+    }
+
     @GetMapping("/filters")
     public Page<Game> filters(@RequestParam(required = false) Integer genreId,
             @RequestParam(required = false) Integer devId,
