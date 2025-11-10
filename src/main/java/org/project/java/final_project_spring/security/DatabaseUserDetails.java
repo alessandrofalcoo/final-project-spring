@@ -3,8 +3,8 @@ package org.project.java.final_project_spring.security;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.project.java.final_project_spring.controller.Role;
-import org.project.java.final_project_spring.controller.User;
+import org.project.java.final_project_spring.model.Role;
+import org.project.java.final_project_spring.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

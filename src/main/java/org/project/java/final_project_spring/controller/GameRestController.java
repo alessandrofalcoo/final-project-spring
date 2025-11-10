@@ -33,7 +33,7 @@ public class GameRestController {
 
     @GetMapping
     public Page<Game> index(@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "6") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Game> games = gameService.findAll(pageable);
         return games;
@@ -42,7 +42,7 @@ public class GameRestController {
     @GetMapping("/searchByName")
     public Page<Game> searchByName(@RequestParam(required = false) String title,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size, Pageable pageable) {
+            @RequestParam(defaultValue = "6") int size, Pageable pageable) {
         pageable = PageRequest.of(page, size);
         Page<Game> gamesPage = gameService.findByTitle(title, pageable);
         if (gamesPage.isEmpty()) {
@@ -55,7 +55,7 @@ public class GameRestController {
     public Page<Game> filters(@RequestParam(required = false) Integer genreId,
             @RequestParam(required = false) Integer devId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size, Pageable pageable) {
+            @RequestParam(defaultValue = "6") int size, Pageable pageable) {
         pageable = PageRequest.of(page, size);
         Page<Game> gamesPage = gameService.getFilteredGames(genreId, devId, pageable);
         if (gamesPage.isEmpty()) {

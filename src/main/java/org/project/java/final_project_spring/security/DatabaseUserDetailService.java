@@ -2,7 +2,7 @@ package org.project.java.final_project_spring.security;
 
 import java.util.Optional;
 
-import org.project.java.final_project_spring.controller.User;
+import org.project.java.final_project_spring.model.User;
 import org.project.java.final_project_spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

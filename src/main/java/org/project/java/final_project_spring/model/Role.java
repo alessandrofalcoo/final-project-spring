@@ -1,4 +1,4 @@
-package org.project.java.final_project_spring.controller;
+package org.project.java.final_project_spring.model;
 
 import java.util.Set;
 

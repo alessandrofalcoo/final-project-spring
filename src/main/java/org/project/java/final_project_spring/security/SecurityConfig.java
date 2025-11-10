@@ -40,19 +40,22 @@ public class SecurityConfig {
     }
 
     @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
     @SuppressWarnings("deprecation")
     DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
+        // questo provider usa questo come servizio di recupero degli utenti via
+        // username
         authProvider.setUserDetailsService(userDetailService());
 
+        // questo provider usa questo come password encoder
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

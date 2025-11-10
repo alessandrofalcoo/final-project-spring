@@ -65,4 +65,5 @@ public class Console {
     public String toString() {
         return String.format(" %s", this.name);
     }
+
 }
